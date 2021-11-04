@@ -7,4 +7,7 @@ react-app with expo
 # To get started:
 
 install expo
+
+install watchman
+
 npm start
