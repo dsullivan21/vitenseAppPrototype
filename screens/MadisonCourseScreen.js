@@ -40,7 +40,7 @@ const MadisonCourseScreen = ({navigation}) => {
 
     let list = [];
     for (let i = 0; i < global.players; i++){
-        list.push(<Input style = {styles.enterPlayers}inputContainerStyle={{borderBottomWidth:0}} placeholder = "Player Name"/>);
+        list.push(<Input key = {i} style = {styles.enterPlayers}inputContainerStyle={{borderBottomWidth:0}} placeholder = "Player Name"/>);
     }
     global.players = 0;
    

@@ -2,8 +2,9 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import {ListItem, Avatar} from "react-native-elements";
 import {imagePlaceholder} from "../assets/icon.png";
+import Scorecard from './Scorecard';
 
-const CourseItem = ({ id, courseName, hole, enterScore}) => {
+const CourseItem = ({ id, courseName, hole, players}) => {
     return (
         <ListItem key = {id} bottomDivider>
             <Avatar
@@ -14,9 +15,9 @@ const CourseItem = ({ id, courseName, hole, enterScore}) => {
             <ListItem.Title style={{fontWeight:"800"}}>
                 {courseName}
             </ListItem.Title>
-            <ListItem.Subtitle numberOfLines = {1} ellipsizeMode = "tail">
-                test Subtitle here test Subtitle here test Subtitle here
-            </ListItem.Subtitle>
+
+            <Scorecard style={styles.scorecard} hole = {hole} players = {players}/>
+
         </ListItem.Content>
         </ListItem>
     )
@@ -24,4 +25,10 @@ const CourseItem = ({ id, courseName, hole, enterScore}) => {
 
 export default CourseItem
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    scorecard:{
+        display: "flex",
+        justifyContent: "flex-start",
+        width: "100%"
+    }
+})

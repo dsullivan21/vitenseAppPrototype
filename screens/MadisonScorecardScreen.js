@@ -25,7 +25,7 @@ const MadisonScorecardScreen = ({navigation}) => {
     useLayoutEffect(() => {
         navigation.setOptions({
             title: "Madison Course",
-            headerBackTitle: "Courses",
+            headerBackTitle: "Quit Round",
             headerTintColor: "white",
         })
     }, [navigation]);
@@ -34,7 +34,7 @@ const MadisonScorecardScreen = ({navigation}) => {
     return (
         <ScrollView style = {styles.container}>
             {scores.map(( {id, data: {course}}) => (
-                    <CourseItem key ={id} id = {id} courseName = {course} hole = {1}/>
+                    <CourseItem key ={id} id = {id} courseName = {course} hole = {1} players = {global.players}/>
             ))}
 
         </ScrollView>
@@ -46,6 +46,7 @@ export default MadisonScorecardScreen
 const styles = StyleSheet.create({
     container: {
         height: "100%",
+        width: "100%"
     },
     headerStyle: {
         fontWeight: "600", 
