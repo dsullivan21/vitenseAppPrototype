@@ -6,6 +6,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import LoginScreen from './screens/LoginScreen.js';
 import RegisterScreen from './screens/RegisterScreen.js'
 import HomeScreen from './screens/HomeScreen.js'
+import QRScanner from './screens/QRScanner.js';
 import AddChatScreen from './screens/AddChatScreen.js';
 import MadisonScorecardScreen from './screens/MadisonScorecardScreen.js';
 import {createStackNavigator} from "@react-navigation/stack";
@@ -28,6 +29,7 @@ export default function App() {
         <Stack.Screen name = 'MadisonScoreCard' component={MadisonScorecardScreen}/>
         <Stack.Screen name = 'Register' component={RegisterScreen}/>
         <Stack.Screen name = 'Home' component={HomeScreen}/>
+        <Stack.Screen name = 'QRScanner' component={QRScanner}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

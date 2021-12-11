@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { ScrollView } from 'react-native'
 import CustomListItem from '../components/CustomListItem'
 import { Avatar, Text, Image } from 'react-native-elements'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, Alert } from 'react-native'
 import { auth, db } from '../firebase'
 import {AntDesign, SimpleLineIcons} from '@expo/vector-icons'
 import { MaterialIcons } from '@expo/vector-icons'
@@ -14,6 +14,16 @@ import logo from '../assets/vitenseLogo.png'
 
 const HomeScreen = ({navigation}) => {
     const [chats, setChats] = useState([]);
+
+    const createTwoButtonAlert = () =>
+        Alert.alert('Opening Scanner', 'Please Scan QR Code at your location to order food with Toast', [
+        {
+            text: 'Cancel',
+            onPress: () => console.log('Cancelled'),
+            style: 'cancel',
+        },
+        { text: 'Continue to Scanner', onPress: () => navigation.navigate("QRScanner")},
+    ]);
 
     useEffect(() => {
        const unsubscribe = db.collection('chats').onSnapshot(snapshot=>( setChats(snapshot.docs.map( doc => ({
@@ -57,7 +67,7 @@ const HomeScreen = ({navigation}) => {
                     width: 80,
                     marginRight: 20,
                 }}> 
-                    <TouchableOpacity activeOpacity = {0.5}>
+                    <TouchableOpacity activeOpacity = {0.5} onPress = {() => createTwoButtonAlert() }>
                         <Ionicons name="fast-food-outline" size={30} color="green" />
                     </TouchableOpacity>
                     <TouchableOpacity onPress = {() => navigation.navigate("AddChat")} activeOpacity = {0.5}>

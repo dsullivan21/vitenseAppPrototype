@@ -5,6 +5,8 @@ import { TouchableOpacity, Modal,TouchableHighlight } from 'react-native'
 import { db } from '../firebase';
 import { Ionicons } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import SwipeableViews from 'react-swipeable-views';
+
 
 const AddChatScreen = ({navigation}) => {
 
@@ -172,6 +174,7 @@ const [modalVisible, setModalVisible] = useState(false);
                     </TouchableOpacity>
                 </View>
             </View>
+            
         </ScrollView>
     )
 }
@@ -232,6 +235,20 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "green",
         borderRadius: 5,
-    }
+    },
+    slide: {
+        padding: 15,
+        minHeight: 100,
+        color: '#fff',
+      },
+      slide1: {
+        backgroundColor: '#FEA900',
+      },
+      slide2: {
+        backgroundColor: '#B3DC4A',
+      },
+      slide3: {
+        backgroundColor: '#6AC0FF',
+      },
 
 })
