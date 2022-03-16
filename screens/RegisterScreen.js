@@ -3,6 +3,7 @@ import { StyleSheet, View, KeyboardAvoidingView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Button, Input, Text } from 'react-native-elements';
 import {auth} from '../firebase.js';
+import { db } from '../firebase';
 
 const RegisterScreen = ({navigation}) => {
 
@@ -12,16 +13,25 @@ const RegisterScreen = ({navigation}) => {
     const [imgUrl, setImageUrl] = useState("");
 
     const register = () => {
-        auth
+       var promise = auth
         .createUserWithEmailAndPassword(email, password)
         .then((authUser) => {
             authUser.user.updateProfile({
                 displayName: name,
                 photoURL:
                     imgUrl || '../assets/userIcon.png'
-            });
+            }
+            );
         }).catch((error)=> alert(error.message))
-    };
+
+        promise.then(function () {
+            var userUid = auth.currentUser.uid;
+      
+            db.collection('scores').doc(userUid).set({
+                name: name,
+            })});
+
+        };
 
     useLayoutEffect(() => {
         navigation.setOptions({

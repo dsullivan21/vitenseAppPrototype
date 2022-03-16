@@ -6,6 +6,8 @@ import { TouchableOpacity } from 'react-native'
 import { db } from '../firebase';
 import { Ionicons } from '@expo/vector-icons'; 
 import { blue, white, bold } from 'ansi-colors';
+import {auth} from '../firebase.js';
+import firebase from 'firebase/app'
 
 
 
@@ -21,22 +23,30 @@ const MadisonCourseScreen = ({navigation}) => {
 
    // const store = createStore();
 
-    const addRound = (e) => {
-        e.preventDefault();
+    function addRound () {
+        console.log("round started");
+        //e.preventDefault();
 
-        const db = firebase.firestore();
-        db.settings({
-            timestampsInSnapshots: true
-        });
-        const scoreRef = db.collection("scores").add({
-            course: this.state.course,
-            players: this.state.players
-        });  
+      //  db.settings({
+      //      timestampsInSnapshots: true
+      //  });
 
-        this.setState({
-            course: "",
-            players: [],
-        });
+        //create user scores collection
+        const user = firebase.auth().currentUser;
+        var userUID = user.uid;
+        var timestamp = new Date().getTime().toString();
+        global.timestamp = timestamp.toString();
+        console.log(timestamp);
+
+        if (userUID != null){
+            db.collection('scores').doc(userUID).collection("madisonCourse").doc(timestamp).set({
+                players: global.players,
+                date: timestamp,
+            });
+        }
+
+        global.players = 0;
+        navigation.navigate("MadisonScoreCard");
 
     }
 
@@ -44,7 +54,6 @@ const MadisonCourseScreen = ({navigation}) => {
     for (let i = 0; i < global.players; i++){
         list.push(<Input key = {i} style = {styles.enterPlayers}inputContainerStyle={{borderBottomWidth:0}} placeholder = "Player Name"/>);
     }
-    global.players = 0;
    
 
     return (
@@ -54,10 +63,8 @@ const MadisonCourseScreen = ({navigation}) => {
             <TouchableOpacity
                     activeOpacity = {0.5}
                     style = {styles.submitPlayers}
-                    onPress={() => {
-                        addRound
-                        navigation.navigate("MadisonScoreCard");
-                }}>
+                    onPress={
+                        addRound}>
                     <Text>Start Round</Text> 
                 </TouchableOpacity>
         </ScrollView>
