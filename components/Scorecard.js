@@ -5,16 +5,19 @@ import { ListItem } from 'react-native-elements'
 import { db } from '../firebase';
 import { doc, getDoc } from "firebase/firestore";
 import {auth} from '../firebase.js';
+import { faHandHolding } from '@fortawesome/free-solid-svg-icons';
 
 //Function holds the scorecard of the app
 
-function Scorecard( { holeNum, players, course} ) {
+function Scorecard( nextHole, { holeNum, players, course} ) {
 
     const [scores, setScores] = useState([]);
     const [names, setNames] = useState([]);
+    const [totalScores, setTotal] = useState([]);
     var docRef = db.collection("madison").doc("par");
     var docRefNames = db.collection("madison").doc("names");
 
+    console.log(holeNum);
     var stringVal = holeNum.toString();
     //var name = db.collection('madison').doc('names').get().then((value)=> console.log(value.data));
    // console.log(name);
@@ -115,11 +118,22 @@ function Scorecard( { holeNum, players, course} ) {
     //save scores to db by userID
     function saveScores(){
 
+        console.log(HolePar);
+        console.log(scores["data"]);
+        if (totalScores.length < holeNum){
+            setScores(totalScores.push(counter));
+        }
+        else if (totalScores.length == holeNum){
+            totalScores.pop();
+            setScores(totalScores.push(counter));
+        }
+        
+        console.log(totalScores);
         var userUid = auth.currentUser.uid;
         console.log(global.timestamp);
         if (userUid != null){
-            db.collection('scores').doc(uid).collection('madisonCourse').doc(global.timestamp).update({
-                hole1: [counter],
+            db.collection('scores').doc(userUid).collection('madisonCourse').doc(global.timestamp).update({
+                hole: totalScores,
             });
         }
     }   
@@ -131,9 +145,11 @@ function Scorecard( { holeNum, players, course} ) {
         
         <ScrollView style = {styles.container}>
             <View>
+                <ListItem >
+                    <Text style= {styles.title}> {HoleName}</Text>
+                </ListItem>
                 <ListItem style= {styles.scoreGrid}> 
                     <Text>Hole: {holeNum}</Text>
-                    <Text> {HoleName}</Text>
                     <Text>Par: {HolePar}</Text>
                 </ListItem>
 
@@ -141,9 +157,9 @@ function Scorecard( { holeNum, players, course} ) {
             <ListItem.Content style = {styles.scoreGrid}>
                 <ListItem style = {styles.scorecardGrid}>
                     <TouchableOpacity style = {styles.addScore} onPress={
-                        increaseScore
+                       decreaseScore
                     }>
-                    <Text> Increase Score</Text>
+                    <Text> - </Text>
                     </TouchableOpacity>
                 </ListItem>
             
@@ -153,15 +169,15 @@ function Scorecard( { holeNum, players, course} ) {
 
                 <ListItem style = {styles.scorecardGrid}>
                     <TouchableOpacity style = {styles.removeScore} onPress={
-                        decreaseScore
+                        increaseScore
                     }>
-                    <Text> Decrease Score</Text>
+                    <Text> + </Text>
                     </TouchableOpacity>
                 </ListItem>
             </ListItem.Content>
 
             <ListItem> 
-            <TouchableOpacity> 
+            <TouchableOpacity style = {styles.saveScore}> 
                 <Text onPress={saveScores}> Save Score </Text>
             </TouchableOpacity>
             </ListItem>
@@ -188,15 +204,33 @@ const styles = StyleSheet.create({
     addScore:{
         display: "flex",
         flexDirection: "row",
+        borderColor: "gray",
+        borderWidth: 1,
+        backgroundColor: "#FAFAFA",
+        padding: 4,
+        borderRadius: 2,
     },
-    decreaseScore:{
+    saveScore: {
+        backgroundColor: "lightgreen",
+        padding: 5,
+        borderRadius: 2,
+    },
+    removeScore:{
         display:  "flex",
         flexDirection: "row",
+        borderColor: "gray",
+        borderWidth: 1,
+        backgroundColor: "#FAFAFA",
+        padding: 4,
+        borderRadius: 2,
     },
     score:{
         display: "flex",
         flexDirection: "row",
-  
+        padding: 4,
+    },
+    title:{
+        fontWeight: "600",
     },
     scoreGrid: {
         display: "flex",

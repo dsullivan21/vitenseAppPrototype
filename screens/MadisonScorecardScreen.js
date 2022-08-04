@@ -22,6 +22,7 @@ const MadisonScorecardScreen = ({navigation}) => {
        })))
        )
        );
+       
 
        return unsubscribe;
     }, [])
@@ -41,6 +42,9 @@ const MadisonScorecardScreen = ({navigation}) => {
 
     function nextHole() {
         setHoleCount(holeCount + 1);
+    }
+    function viewCard(){
+        navigation.navigate("Scorecard");
     }
 
     const createTwoButtonAlert = () =>
@@ -68,9 +72,15 @@ const MadisonScorecardScreen = ({navigation}) => {
             
             <CourseItem key ={1} id = {1} courseName = {course} hole = {holeCount} players = {global.players}/>
     
-            <TouchableOpacity onPress={nextHole}> 
-                <Text> Next Hole </Text>
+        <View style = {styles.footer}> 
+            <TouchableOpacity onPress={nextHole} style = {styles.button}> 
+                <Text style = {styles.buttonText}> Next Hole </Text>
             </TouchableOpacity>
+
+            <TouchableOpacity onPress={viewCard} style = {styles.button}> 
+                <Text style = {styles.buttonText}> View Scorecard </Text>
+            </TouchableOpacity>
+        </View>
         </ScrollView>
     )
 }
@@ -80,7 +90,8 @@ export default MadisonScorecardScreen
 const styles = StyleSheet.create({
     container: {
         height: "100%",
-        width: "100%"
+        width: "100%",
+        flex: 1,
     },
     headerStyle: {
         fontWeight: "600", 
@@ -91,5 +102,19 @@ const styles = StyleSheet.create({
     },
     headerBack:{
         color:"white",
+    },
+    button:{
+        backgroundColor: "lightgreen",
+        padding: 15,
+        display: "flex",
+        justifyContent: "space-evenly",
+        marginBottom: 20,
+    },
+    buttonText: {
+        fontWeight:"500",
+        textAlign:"center",
+    },
+    footer: {
+        height: 100
     }
 })

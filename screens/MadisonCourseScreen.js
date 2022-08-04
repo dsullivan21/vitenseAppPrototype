@@ -38,7 +38,17 @@ const MadisonCourseScreen = ({navigation}) => {
         global.timestamp = timestamp.toString();
         console.log(timestamp);
 
-        if (userUID != null){
+        if (global.players == 1){
+            if (userUID != null){
+                db.collection('scores').doc(userUID).collection("madisonCourse").doc(timestamp).set({
+                    player: user.displayName,
+                    date: timestamp,
+                });
+            }
+
+        }
+
+        else if (userUID != null){
             db.collection('scores').doc(userUID).collection("madisonCourse").doc(timestamp).set({
                 players: global.players,
                 date: timestamp,
@@ -51,9 +61,12 @@ const MadisonCourseScreen = ({navigation}) => {
     }
 
     let list = [];
-    for (let i = 0; i < global.players; i++){
-        list.push(<Input key = {i} style = {styles.enterPlayers}inputContainerStyle={{borderBottomWidth:0}} placeholder = "Player Name"/>);
+    if (global.players > 1){
+        for (let i = 0; i < global.players; i++){
+            list.push(<Input key = {i} style = {styles.enterPlayers}inputContainerStyle={{borderBottomWidth:0}} placeholder = "Player Name"/>);
+        }
     }
+    
    
 
     return (

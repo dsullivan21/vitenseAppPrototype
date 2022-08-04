@@ -11,6 +11,7 @@ import AddChatScreen from './screens/AddChatScreen.js';
 import MadisonScorecardScreen from './screens/MadisonScorecardScreen.js';
 import {createStackNavigator} from "@react-navigation/stack";
 import MadisonCourseScreen from './screens/MadisonCourseScreen.js';
+import ViewScorecardScreen from './screens/ViewScorecardScreen';
 
 const Stack = createStackNavigator();
 const globalScreenOptions = {
@@ -30,6 +31,7 @@ export default function App() {
         <Stack.Screen name = 'Register' component={RegisterScreen}/>
         <Stack.Screen name = 'Home' component={HomeScreen}/>
         <Stack.Screen name = 'QRScanner' component={QRScanner}/>
+        <Stack.Screen name = 'Scorecard' component={ViewScorecardScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

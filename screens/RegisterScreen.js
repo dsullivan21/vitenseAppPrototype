@@ -26,7 +26,7 @@ const RegisterScreen = ({navigation}) => {
 
         promise.then(function () {
             var userUid = auth.currentUser.uid;
-      
+         //   var username = auth.currentUser.displayName;
             db.collection('scores').doc(userUid).set({
                 name: name,
             })});
