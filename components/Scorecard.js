@@ -18,7 +18,7 @@ function Scorecard( nextHole, { holeNum, players, course} ) {
     var docRefNames = db.collection("madison").doc("names");
 
     console.log(holeNum);
-    var stringVal = holeNum.toString();
+    //var stringVal = holeNum.toString();
     //var name = db.collection('madison').doc('names').get().then((value)=> console.log(value.data));
    // console.log(name);
     var nameComplete = false;
