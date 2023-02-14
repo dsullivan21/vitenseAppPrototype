@@ -12,6 +12,9 @@ import firebase from 'firebase/app'
 
 
 const MadisonCourseScreen = ({navigation}) => {
+    const user = firebase.auth().currentUser;
+    var userUID = user.uid;
+    var name = user.displayName;
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -34,45 +37,36 @@ const MadisonCourseScreen = ({navigation}) => {
         //create user scores collection
         const user = firebase.auth().currentUser;
         var userUID = user.uid;
+      //  var name = user.displayName;
         var timestamp = new Date().getTime().toString();
         global.timestamp = timestamp.toString();
         console.log(timestamp);
 
-        if (global.players == 1){
-            if (userUID != null){
-                db.collection('scores').doc(userUID).collection("madisonCourse").doc(timestamp).set({
-                    player: user.displayName,
-                    date: timestamp,
-                });
-            }
-
-        }
-
-        else if (userUID != null){
+        if (userUID != null){
             db.collection('scores').doc(userUID).collection("madisonCourse").doc(timestamp).set({
-                players: global.players,
+                player: user.displayName,
                 date: timestamp,
             });
         }
 
-        global.players = 0;
         navigation.navigate("MadisonScoreCard");
 
     }
 
-    let list = [];
-    if (global.players > 1){
-        for (let i = 0; i < global.players; i++){
-            list.push(<Input key = {i} style = {styles.enterPlayers}inputContainerStyle={{borderBottomWidth:0}} placeholder = "Player Name"/>);
-        }
-    }
     
    
 
     return (
         <ScrollView style = {styles.container}>
             <Text style = {styles.courseHeader}> Madison Course </Text>
-            {list}
+            <Text style = {styles.player}> {name} </Text>
+            <TouchableOpacity
+                    activeOpacity = {0.5}
+                    style = {styles.submitPlayers}
+                    onPress={
+                        addRound}>
+                    <Text>Add Another Golfer</Text> 
+                </TouchableOpacity>
             <TouchableOpacity
                     activeOpacity = {0.5}
                     style = {styles.submitPlayers}
@@ -80,6 +74,7 @@ const MadisonCourseScreen = ({navigation}) => {
                         addRound}>
                     <Text>Start Round</Text> 
                 </TouchableOpacity>
+                
         </ScrollView>
     )
 }

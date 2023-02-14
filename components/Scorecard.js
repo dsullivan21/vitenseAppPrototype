@@ -6,37 +6,47 @@ import { db } from '../firebase';
 import { doc, getDoc } from "firebase/firestore";
 import {auth} from '../firebase.js';
 import { faHandHolding } from '@fortawesome/free-solid-svg-icons';
+import firebase from 'firebase/app';
 
 //Function holds the scorecard of the app
 
-function Scorecard( nextHole, { holeNum, players, course} ) {
+function Scorecard( { holeNum, players, course} ) {
 
     const [scores, setScores] = useState([]);
     const [names, setNames] = useState([]);
     const [totalScores, setTotal] = useState([]);
     var docRef = db.collection("madison").doc("par");
     var docRefNames = db.collection("madison").doc("names");
+    const user = firebase.auth().currentUser;
+    var userUID = user.uid;
+    var name = user.displayName;
 
-    console.log(holeNum);
+    console.log("hole num", holeNum);
     //var stringVal = holeNum.toString();
     //var name = db.collection('madison').doc('names').get().then((value)=> console.log(value.data));
    // console.log(name);
     var nameComplete = false;
     var parComplete = false;
-    
+    var parData;
+    var par; 
     //send score data backwards to parent
 
-
+//
     //get par data
 
     function getParData(){
-
+      
         docRef.get().then((doc) => {
             if (doc.exists && parComplete == false) {
-               // console.log("Document data:", doc.data());
+                console.log("Document data:", doc.data());
+                var parObj = doc.data();
+                //get par data as array
+                var parList = Object.values(parObj);
+               // var holeList = Object.keys(parObj);
+                console.log(parList);
                 setScores({
                     id: doc.id,
-                    data: doc.data()[stringVal],
+                    data: parList,
                 })
                 parComplete = true;
                 return true;
@@ -58,9 +68,11 @@ function Scorecard( nextHole, { holeNum, players, course} ) {
         docRefNames.get().then((doc) => {
             if (doc.exists && nameComplete == false) {
                // console.log("Document data:", doc.data());
+               var nameObj = doc.data();
+               var names = Object.values(nameObj);
                 setNames({
                     id: doc.id,
-                    data: doc.data()[stringVal],
+                    data: names,
                 })
                 nameComplete = true;
                 return true;
@@ -91,8 +103,11 @@ function Scorecard( nextHole, { holeNum, players, course} ) {
 
     //console.log(holeNum)
      var HoleName = names['data'];
+
      var HolePar = parseInt(scores['data']);
    // console.log(scores["data"]);
+
+
    // console.log(names["data"]);
 
 
@@ -143,7 +158,8 @@ function Scorecard( nextHole, { holeNum, players, course} ) {
 
     return (
         
-        <ScrollView style = {styles.container}>
+        <ScrollView >
+            
             <View>
                 <ListItem >
                     <Text style= {styles.title}> {HoleName}</Text>
@@ -154,8 +170,11 @@ function Scorecard( nextHole, { holeNum, players, course} ) {
                 </ListItem>
 
             </View>
-            <ListItem.Content style = {styles.scoreGrid}>
-                <ListItem style = {styles.scorecardGrid}>
+
+            <View style=  {styles.scoreGroup}>
+            <Text style = {styles.playerName}> {name} </Text>
+            <ListItem style = {styles.scoreGrid}>
+                <ListItem>
                     <TouchableOpacity style = {styles.addScore} onPress={
                        decreaseScore
                     }>
@@ -174,14 +193,15 @@ function Scorecard( nextHole, { holeNum, players, course} ) {
                     <Text> + </Text>
                     </TouchableOpacity>
                 </ListItem>
-            </ListItem.Content>
+            </ListItem>
 
             <ListItem> 
             <TouchableOpacity style = {styles.saveScore}> 
                 <Text onPress={saveScores}> Save Score </Text>
             </TouchableOpacity>
             </ListItem>
-
+            </View>
+            
         </ScrollView>
     )
 }
@@ -192,14 +212,11 @@ const styles = StyleSheet.create({
     container: {
         height: "100%",
         width: "100%",
-        marginLeft: 0,
         },
     headerStyle: {
         fontWeight: "600", 
         backgroundColor: "white", 
         color: "black",
-        paddingBottom: 10,
-        paddingTop: 10,
     },
     addScore:{
         display: "flex",
@@ -233,10 +250,20 @@ const styles = StyleSheet.create({
         fontWeight: "600",
     },
     scoreGrid: {
+        paddingLeft: 0,
         display: "flex",
         width: "100%",
         flexDirection: "row",
         alignItems: "flex-start",
         justifyContent: "flex-start",
+        padding: 10,
     },
+    scoreGroup:{
+        width: "100%",
+        display: "flex",
+        alignItems: "flex-start",
+        borderColor: "black",
+        borderWidth: 1,
+        padding: 10,
+    }
 })

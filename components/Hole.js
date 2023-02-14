@@ -1,8 +1,15 @@
 import React from 'react'
 import { StyleSheet, View, Button, ScrollView, TouchableOpacity, Text, FlatList } from 'react-native'
 import { ListItem } from 'react-native-elements'
+import {auth} from '../firebase.js';
+import firebase from 'firebase/app'
 
 const Hole = ({ id, courseName, hole, players}) => {
+
+    const user = firebase.auth().currentUser;
+    var userUID = user.uid;
+    var name = user.displayName;
+
     return (
         <ListItem.Content style = {styles.scoreGrid}>
                 <ListItem style = {styles.scorecardGrid}>

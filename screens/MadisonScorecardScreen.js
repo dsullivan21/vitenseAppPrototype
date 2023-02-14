@@ -15,6 +15,7 @@ const MadisonScorecardScreen = ({navigation}) => {
     const [holeCount, setHoleCount] = useState(1);
     const course = "Madison";
 
+    console.log(holeCount);
     useEffect(() => {
        const unsubscribe = db.collection('scores').onSnapshot(snapshot=>( setScores(snapshot.docs.map( doc => ({
            id: doc.id,

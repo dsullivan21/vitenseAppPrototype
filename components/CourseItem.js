@@ -7,6 +7,7 @@ import { TouchableOpacity } from 'react-native'
 
 const CourseItem = ( {id, courseName, hole, players}) => {
 
+    console.log("hole", hole);
     return (
         <ScrollView>
         <ListItem key = {id}  style={styles.cardContainer}>

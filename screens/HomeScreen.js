@@ -80,7 +80,7 @@ const HomeScreen = ({navigation}) => {
 
     return (
         <SafeAreaView>
-            <Text h3 style={styles.headerStyle} > Your Recent Activity</Text>
+            <Text h3 style={styles.headerStyle} > Recent Vitense News</Text>
             <ScrollView style = {styles.container}>
                 {chats.map(( {id, data: {chatName}}) => (
                     <CustomListItem key ={id} id = {id} chatName = {chatName}/>

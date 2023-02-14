@@ -57,65 +57,6 @@ const [modalVisible, setModalVisible] = useState(false);
     return (
         <ScrollView style = {styles.container}>
 
-        <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-           >
-            <View style={styles.centeredView}>
-                <View style = {styles.modalView}>
-                <Text h3 style = {{marginTop: 5, marginBottom: 30, fontWeight: "600"}}> How Many Players? </Text>
-
-                <View style = {{flexDirection: "row"}}>
-
-                <TouchableOpacity
-                    activeOpacity = {0.5}
-                    style = {styles.playerCount}
-                    onPress={() => {
-                        global.players = 1;
-                        setModalVisible(!modalVisible);
-                        goToMadison();
-                }}>
-                    <MaterialCommunityIcons name="numeric-1-circle-outline" size={40} color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                    activeOpacity = {0.5}
-                    style = {styles.playerCount}
-                    onPress={() => {
-                        global.players = 2;
-                        setModalVisible(!modalVisible);
-                        goToMadison();
-                }}>
-                    <MaterialCommunityIcons name="numeric-2-circle-outline" size={40} color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                    activeOpacity = {0.5}
-                    style = {styles.playerCount}
-                    onPress={() => {
-                        global.players = 3;
-                        setModalVisible(!modalVisible);
-                        goToMadison();
-                }}>
-                    <MaterialCommunityIcons name="numeric-3-circle-outline" size={40} color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                    activeOpacity = {0.5}
-                    style = {styles.playerCount}
-                    onPress={() => {
-                        global.players = 4;
-                        setModalVisible(!modalVisible);
-                        goToMadison();
-                }}>
-                    <MaterialCommunityIcons name="numeric-4-circle-outline" size={40} color="black" />
-                </TouchableOpacity>
-
-                </View>
-
-                </View>
-               
-            </View>
-
-        </Modal>
             <View style = {styles.courseList}>
                 <View style = {{ flexDirection: "row"}}>
                     <Ionicons name="golf" size={24} color="black" />
@@ -123,7 +64,7 @@ const [modalVisible, setModalVisible] = useState(false);
                 </View>
                 <View style= {{justifyContent: "center", alignItems: "center", flexDirection: "row"}}>
                     <TouchableOpacity  activeOpacity = {0.5} onPress={() => {
-                        setModalVisible(true);
+                        goToMadison();
                     }}> 
                         <Text h5 style = {styles.courseOptions}>Enter Scores</Text>
                     </TouchableOpacity>
