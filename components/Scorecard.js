@@ -1,4 +1,4 @@
-import React, {useState, useLayoutEffect, useEffect} from 'react'
+import React, {useState, useLayoutEffect, useEffect, useRef} from 'react'
 
 import { StyleSheet, View, Button, ScrollView, TouchableOpacity, Text, FlatList } from 'react-native'
 import { ListItem } from 'react-native-elements'
@@ -87,12 +87,20 @@ function Scorecard( { holeNum, players, course} ) {
         });
         return false;
     }
-    
+
+
+    //trigger save scores on next hole click
+    const didMountRef = useRef(false);
     useEffect(() => {
        
         getNameData();
   
         getParData();
+        if (didMountRef.current) {
+            saveScores();
+          } 
+        else didMountRef.current = true
+        
         //return unsubscribe;
      }, [holeNum])
 
@@ -102,9 +110,7 @@ function Scorecard( { holeNum, players, course} ) {
     //const [hole, setHole] = useState(1);
 
     //console.log(holeNum)
-     var HoleName = names['data'];
-
-     var HolePar = parseInt(scores['data']);
+     
    // console.log(scores["data"]);
 
 
@@ -129,6 +135,13 @@ function Scorecard( { holeNum, players, course} ) {
       setCounter(counter - 1);
     }
 
+        var HoleName = names && names['data'];
+        //console.log(HoleName[0]);
+
+        
+
+        var HolePar = parseInt(scores['data']);
+
 
     //save scores to db by userID
     function saveScores(){
@@ -152,33 +165,36 @@ function Scorecard( { holeNum, players, course} ) {
             });
         }
     }   
+    
 
   
     
 
     return (
         
-        <ScrollView >
+        <ScrollView style = {styles.container}>
             
             <View>
-                <ListItem >
-                    <Text style= {styles.title}> {HoleName}</Text>
-                </ListItem>
+                <View style = {styles.titleContainer}>
+                    <Text style= {styles.title}> {names && HoleName ? HoleName[holeNum -1] : ""}</Text>
+                </View>
                 <ListItem style= {styles.scoreGrid}> 
-                    <Text>Hole: {holeNum}</Text>
-                    <Text>Par: {HolePar}</Text>
+                    <View style = {styles.par}> 
+                    <Text style = {styles.partext}>Hole: {holeNum}</Text>
+                    <Text style = {styles.partext}>Par: {HolePar}</Text>
+                    </View>
                 </ListItem>
 
             </View>
 
-            <View style=  {styles.scoreGroup}>
+            <View style=  {styles.changeScore}>
             <Text style = {styles.playerName}> {name} </Text>
-            <ListItem style = {styles.scoreGrid}>
+            <ListItem style = {styles.scorebuttons}>
                 <ListItem>
                     <TouchableOpacity style = {styles.addScore} onPress={
                        decreaseScore
                     }>
-                    <Text> - </Text>
+                    <Text style = {{color:"#304d50", fontWeight: "700", fontSize: 16}}> - </Text>
                     </TouchableOpacity>
                 </ListItem>
             
@@ -190,17 +206,12 @@ function Scorecard( { holeNum, players, course} ) {
                     <TouchableOpacity style = {styles.removeScore} onPress={
                         increaseScore
                     }>
-                    <Text> + </Text>
+                    <Text style = {{color:"#304d50",fontWeight: "700", fontSize: 16}}> + </Text>
                     </TouchableOpacity>
                 </ListItem>
             </ListItem>
-
-            <ListItem> 
-            <TouchableOpacity style = {styles.saveScore}> 
-                <Text onPress={saveScores}> Save Score </Text>
-            </TouchableOpacity>
-            </ListItem>
             </View>
+
             
         </ScrollView>
     )
@@ -218,36 +229,81 @@ const styles = StyleSheet.create({
         backgroundColor: "white", 
         color: "black",
     },
+    titleContainer:{
+        display: "flex",
+        justifyContent: "center",
+        margin: 10,
+        padding: 10,
+    },
+    par:{
+        display: "flex",
+        flexDirection: "row",
+        shadowColor: '#c6c6c6',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,  
+        elevation: 5,
+        backgroundColor: "white",
+        padding: 10,
+        borderRadius: 15
+    },
+    partext:{
+        fontWeight: "500",
+        color: "#304d50",
+        padding: 10
+    },
     addScore:{
         display: "flex",
         flexDirection: "row",
         borderColor: "gray",
-        borderWidth: 1,
-        backgroundColor: "#FAFAFA",
-        padding: 4,
+        backgroundColor: "white",
+        padding: 10,
         borderRadius: 2,
+        shadowColor: 'gray',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,  
+        elevation: 5,
     },
     saveScore: {
-        backgroundColor: "lightgreen",
-        padding: 5,
+        backgroundColor: "#c9e5d9",
+        padding: 15,
         borderRadius: 2,
+        marginBottom: 20,
+    },
+    saveScoreText: {
+        textAlign: 'center',
     },
     removeScore:{
         display:  "flex",
         flexDirection: "row",
-        borderColor: "gray",
-        borderWidth: 1,
-        backgroundColor: "#FAFAFA",
-        padding: 4,
+        backgroundColor: "white",
+        padding: 10,
         borderRadius: 2,
+        shadowColor: 'gray',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,  
+        elevation: 5,
+    },
+    scorebuttons:{
+        marginTop: 10,
+
     },
     score:{
         display: "flex",
         flexDirection: "row",
         padding: 4,
+        fontSize: 18,
+        color: "#304d50",
+        fontWeight: "700"
     },
     title:{
         fontWeight: "600",
+        justifyContent: "center",
+        textAlign: 'center',
+        fontSize: 20,
+        color: "#304d50",
     },
     scoreGrid: {
         paddingLeft: 0,
@@ -257,13 +313,44 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
         justifyContent: "flex-start",
         padding: 10,
+        
     },
     scoreGroup:{
         width: "100%",
         display: "flex",
         alignItems: "flex-start",
-        borderColor: "black",
-        borderWidth: 1,
         padding: 10,
-    }
+        flexDirection: 'row',
+       
+        
+    },
+
+    changeScore: {
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        paddingTop: 10,
+        paddingBottom: 10,
+        flexDirection: 'row',
+        shadowColor: '#c6c6c6',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,  
+        elevation: 5,
+        marginBottom: 25,
+    },
+    playerName: {
+        width: "40%",
+        display: "flex",
+        backgroundColor: "white",
+        color: "#304d50",
+        padding: 25,
+        paddingBottom: 30,
+        paddingTop: 35,
+        marginTop: 10,
+        fontSize: 16,
+        alignItems: "flex-start",
+        fontWeight: '700',
+        borderRadius: 25,
+        textAlign: 'center',    }
 })

@@ -11,9 +11,16 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import logo from '../assets/vitenseLogo.png'
+import { SliderBox } from 'react-native-image-slider-box';
 
 const HomeScreen = ({navigation}) => {
     const [chats, setChats] = useState([]);
+    const [images, setImages] = React.useState([
+        "https://source.unsplash.com/1024x768/?nature",
+        "https://source.unsplash.com/1024x768/?water",
+        "https://source.unsplash.com/1024x768/?tree",
+    ]);
+
 
     const createTwoButtonAlert = () =>
         Alert.alert('Opening Scanner', 'Please Scan QR Code at your location to order food with Toast', [
@@ -45,19 +52,16 @@ const HomeScreen = ({navigation}) => {
         navigation.setOptions({
             title: "Vitense Home",
             headerStyle: {backgroundColor: "white", height: 100}, 
-            headerTintColor:  "green",
+            headerTintColor:  "#304d50",
             headerTitle: () => (
                 <View style = {{flexDirection: "row", alignItems: 'center',}}> 
-                    <Image source = {logo} style ={{width: 60, height: 60, marginBottom: 10}} />
+                    <Image source = {logo} style ={{width: 80, height: 80, marginBottom: 10, resizeMode: 'contain'}} />
                 </View>
                 
             ),
             headerLeft: () => (<View style={{ marginLeft: 20, flexDirection: "row", alignItems: 'center' }}> 
                 <TouchableOpacity activeOpacity = {0.5} onPress = {signOutUser}>
-                    <FontAwesome name="user-o" size={25} color="green" />
-                </TouchableOpacity>
-                <TouchableOpacity style = {{marginLeft: 20}} activeOpacity = {0.5} >
-                    <Ionicons name="notifications-outline" size={30} color="green" />
+                    <FontAwesome name="user-o" size={25} color="#304d50" />
                 </TouchableOpacity>
             </View>),
             headerRight: () => (
@@ -68,10 +72,10 @@ const HomeScreen = ({navigation}) => {
                     marginRight: 20,
                 }}> 
                     <TouchableOpacity activeOpacity = {0.5} onPress = {() => createTwoButtonAlert() }>
-                        <Ionicons name="fast-food-outline" size={30} color="green" />
+                        <Ionicons name="fast-food-outline" size={30} color="#304d50" />
                     </TouchableOpacity>
                     <TouchableOpacity onPress = {() => navigation.navigate("AddChat")} activeOpacity = {0.5}>
-                        <MaterialIcons name="sports-golf" size={35} color="green" />                   
+                        <MaterialIcons name="sports-golf" size={35} color="#304d50" />                   
                     </TouchableOpacity>
                 </View>
             ),
@@ -79,14 +83,23 @@ const HomeScreen = ({navigation}) => {
     }, [navigation])
 
     return (
-        <SafeAreaView>
+        <ScrollView>
+            <SliderBox 
+                images={images}
+                sliderBoxHeight={400}
+                dotColor="#a7d7c3"
+                inactiveDotColor="#90A4AE"  
+                onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
+                paginationBoxVerticalPadding={20}
+                circleLoop
+            />
             <Text h3 style={styles.headerStyle} > Recent Vitense News</Text>
             <ScrollView style = {styles.container}>
                 {chats.map(( {id, data: {chatName}}) => (
                     <CustomListItem key ={id} id = {id} chatName = {chatName}/>
                 ))}
             </ScrollView>
-        </SafeAreaView>
+        </ScrollView>
     )
 }
 

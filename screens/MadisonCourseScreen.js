@@ -58,8 +58,14 @@ const MadisonCourseScreen = ({navigation}) => {
 
     return (
         <ScrollView style = {styles.container}>
+            <View style = {styles.header}>
             <Text style = {styles.courseHeader}> Madison Course </Text>
+            </View>
+            <View style = {styles.players}>
+            <Text style = {styles.playerHeader}> Golfers  </Text>
             <Text style = {styles.player}> {name} </Text>
+            </View>
+            <View style={styles.buttonContainer}>
             <TouchableOpacity
                     activeOpacity = {0.5}
                     style = {styles.submitPlayers}
@@ -74,7 +80,7 @@ const MadisonCourseScreen = ({navigation}) => {
                         addRound}>
                     <Text>Start Round</Text> 
                 </TouchableOpacity>
-                
+            </View>
         </ScrollView>
     )
 }
@@ -87,6 +93,22 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginBottom: 10,
     },
+    header: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent:"center",
+        marginBottom: 15,
+        marginTop: 15
+    },
+    players: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent:"center",
+    },
+    playerHeader: {
+        fontWeight: "800",
+    },
+
 
     enterPlayers: {
         backgroundColor: "white",

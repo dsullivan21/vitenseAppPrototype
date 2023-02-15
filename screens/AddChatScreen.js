@@ -1,11 +1,12 @@
 import React, {useState, useLayoutEffect} from 'react'
-import { StyleSheet, View, Button, ScrollView } from 'react-native'
+import { StyleSheet, View, Button, ScrollView, Image } from 'react-native'
 import { Input, Icon, Text } from 'react-native-elements';
 import { TouchableOpacity, Modal,TouchableHighlight } from 'react-native'
 import { db } from '../firebase';
 import { Ionicons } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import SwipeableViews from 'react-swipeable-views';
+import logo from '../assets/vitenseLogo.png'
 
 
 const AddChatScreen = ({navigation}) => {
@@ -52,16 +53,19 @@ useLayoutEffect(() => {
     })
 }, [navigation]);
 
+
 const [modalVisible, setModalVisible] = useState(false);
+
 
     return (
         <ScrollView style = {styles.container}>
 
             <View style = {styles.courseList}>
-                <View style = {{ flexDirection: "row"}}>
-                    <Ionicons name="golf" size={24} color="black" />
+                <View style = {{ flexDirection: "row", display:"flex", justifyContent:"center", marginBottom: 10}}>
+                    <Ionicons name="golf" size={24} color="#304d50" />
                     <Text h4 style = {styles.optionText}>Madison Course</Text> 
                 </View>
+                <Image source={logo} resizeMode="contain" style={styles.image}/>
                 <View style= {{justifyContent: "center", alignItems: "center", flexDirection: "row"}}>
                     <TouchableOpacity  activeOpacity = {0.5} onPress={() => {
                         goToMadison();
@@ -74,10 +78,11 @@ const [modalVisible, setModalVisible] = useState(false);
                 </View>
             </View>
             <View style = {styles.courseList}>
-                <View style = {{ flexDirection: "row"}}>
-                    <Ionicons name="golf" size={24} color="black" />
+                <View style = {{ flexDirection: "row", display:"flex", justifyContent:"center", marginBottom: 10}}>
+                    <Ionicons name="golf" size={24} color="#304d50" />
                     <Text h4 style = {styles.optionText}>Wisconsin Course</Text> 
                 </View>
+                <Image source={logo} resizeMode="contain" style={styles.image}/>
                 <View style= {{justifyContent: "center", alignItems: "center", flexDirection: "row"}}>
                     <TouchableOpacity  activeOpacity = {0.5} > 
                         <Text h5 style = {styles.courseOptions}>Enter Scores</Text>
@@ -88,10 +93,11 @@ const [modalVisible, setModalVisible] = useState(false);
                 </View>
             </View>
             <View style = {styles.courseList}>
-                <View style = {{ flexDirection: "row"}}>
-                    <Ionicons name="golf" size={24} color="black" />
+                <View style = {{ flexDirection: "row", display:"flex", justifyContent:"center", marginBottom: 10}}>
+                    <Ionicons name="golf" size={24} color="#304d50" />
                     <Text h4 style = {styles.optionText}>California Course</Text> 
                 </View>
+                <Image source={logo} resizeMode="contain" style={styles.image}/>
                 <View style= {{justifyContent: "center", alignItems: "center", flexDirection: "row"}}>
                     <TouchableOpacity  activeOpacity = {0.5} > 
                         <Text h5 style = {styles.courseOptions}>Enter Scores</Text>
@@ -102,10 +108,11 @@ const [modalVisible, setModalVisible] = useState(false);
                 </View>
             </View>
             <View style = {styles.courseList}>
-                <View style = {{ flexDirection: "row"}}>
-                    <Ionicons name="golf" size={24} color="black" />
+                <View style = {{ flexDirection: "row", display:"flex", justifyContent:"center", marginBottom: 10}}>
+                    <Ionicons name="golf" size={24} color="#304d50" />
                     <Text h4 style = {styles.optionText}>Par 3 Course</Text> 
                 </View>
+                <Image source={logo} resizeMode="contain" style={styles.image}/>
                 <View style= {{justifyContent: "center", alignItems: "center", flexDirection: "row"}}>
                     <TouchableOpacity  activeOpacity = {0.5} > 
                         <Text h5 style = {styles.courseOptions}>Enter Scores</Text>
@@ -125,9 +132,19 @@ export default AddChatScreen
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "white",
-        padding: 30,
-        height: "100%"
+        padding: 10,
+        height: "100%",
+        display: "flex",
+        flex: 1,
+        flexDirection: 'column'
     },
+    image: {
+        flex: 1,
+        justifyContent: 'center',
+        width: null,
+        height: null,
+        marginTop: 5,
+      },
     playerCount: {
         height: 50,
         width: 50,
@@ -156,25 +173,32 @@ const styles = StyleSheet.create({
     courseList: {
         width: "100%",
         backgroundColor: "white",
-        borderColor: "lightgray",
-        borderWidth: 1,
+        shadowColor: '#304d50',
+        shadowOffset: { width: 3, height: 5 },
+        shadowOpacity: 1,
+        shadowRadius: 15,
+        elevation: 2, 
         padding: 30,
         marginBottom: 15,
         borderRadius: 5,
+        height: 270,
     },
     optionText: {
         marginLeft: 10,
+        textAlign: "center",
+        fontWeight: "700",
+        color: "#304d50"
     },
     courseOptions: {
         marginTop: 10,
         backgroundColor: "white",
-        color: "green",
-        padding: 15,
+        color: "#304d50",
+        padding: 10,
         marginLeft: 10,
         fontWeight: "bold",
         textAlign: "center",
         borderWidth: 1,
-        borderColor: "green",
+        borderColor: "#304d50",
         borderRadius: 5,
     },
     slide: {

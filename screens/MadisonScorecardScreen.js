@@ -45,7 +45,7 @@ const MadisonScorecardScreen = ({navigation}) => {
         setHoleCount(holeCount + 1);
     }
     function viewCard(){
-        navigation.navigate("Scorecard");
+        navigation.navigate("Scorecard", { courseName: course });
     }
 
     const createTwoButtonAlert = () =>
@@ -70,17 +70,21 @@ const MadisonScorecardScreen = ({navigation}) => {
 
     return (
         <ScrollView style = {styles.container}>
-            
-            <CourseItem key ={1} id = {1} courseName = {course} hole = {holeCount} players = {global.players}/>
-    
+        
+        <View style = {styles.course}>
+        <CourseItem key ={1} id = {1} courseName = {course} hole = {holeCount} players = {global.players}/>
+        </View>
         <View style = {styles.footer}> 
+
+            <TouchableOpacity onPress={viewCard} style = {styles.button}> 
+                <Text style = {styles.buttonText}> Scorecard </Text>
+            </TouchableOpacity>
+
             <TouchableOpacity onPress={nextHole} style = {styles.button}> 
                 <Text style = {styles.buttonText}> Next Hole </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={viewCard} style = {styles.button}> 
-                <Text style = {styles.buttonText}> View Scorecard </Text>
-            </TouchableOpacity>
+            
         </View>
         </ScrollView>
     )
@@ -92,7 +96,8 @@ const styles = StyleSheet.create({
     container: {
         height: "100%",
         width: "100%",
-        flex: 1,
+        display: "flex",
+        backgroundColor: "#FFFFFF",
     },
     headerStyle: {
         fontWeight: "600", 
@@ -104,18 +109,29 @@ const styles = StyleSheet.create({
     headerBack:{
         color:"white",
     },
+    course:{
+        width: "100%",
+    },
     button:{
-        backgroundColor: "lightgreen",
+        backgroundColor: "white",
         padding: 15,
         display: "flex",
         justifyContent: "space-evenly",
         marginBottom: 20,
+        borderRadius: 15,
+        shadowColor: '#c6c6c6',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 1,
+        shadowRadius: 2,  
     },
     buttonText: {
         fontWeight:"500",
         textAlign:"center",
+        color: "#304d50",
     },
     footer: {
-        height: 100
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-evenly"
     }
 })

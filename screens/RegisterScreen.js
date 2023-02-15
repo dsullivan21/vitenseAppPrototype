@@ -1,5 +1,5 @@
 import React, {useLayoutEffect, useState} from 'react';
-import { StyleSheet, View, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, View, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Button, Input, Text } from 'react-native-elements';
 import {auth} from '../firebase.js';
@@ -43,44 +43,43 @@ const RegisterScreen = ({navigation}) => {
              <StatusBar style = "light" />
             <Text h3 style = {{marginBottom: 50}}>Create Account</Text>
 
-            <View style = {styles.inputContianer}>
+            <View style = {styles.inputContianer}>  
 
+                <View style={styles.emailContainer}>
                 <Input 
                     placeholder = "Full Name"
                     autoFocus
                     type = "text"
                     value = {name} 
                     onChangeText = {(text)=>setName(text)}
+                    inputContainerStyle={{borderBottomWidth:0}}
                 />
+                </View>
+                <View style={styles.emailContainer}>
                 <Input 
                     placeholder = "Email"
                     type = "text"
                     value = {email} 
                     onChangeText = {(text)=>setEmail(text)}
+                    inputContainerStyle={{borderBottomWidth:0}}
                 />
+                </View>
+                <View style={styles.emailContainer}>
                 <Input 
-                    placeholder = "Passowrd"
+                    placeholder = "Password"
                     type = "text"
                     value = {password} 
                     secureTextEntry
                     onChangeText = {(text)=>setPassword(text)}
+                    inputContainerStyle={{borderBottomWidth:0}}
                 />
-                 <Input 
-                    placeholder = "Image Url"
-                    type = "text"
-                    value = {imgUrl} 
-                    secureTextEntry
-                    onChangeText = {(text)=>setImageUrl(text)}
-                />
+                </View>
 
             </View>
 
-            <Button 
-                containerStyle = {styles.button}
-                raised
-                onPress = {register}
-                title = "Register"
-            />
+            <TouchableOpacity style = {styles.button} onPress = {register}> 
+            <Text style = {styles.text}>Register</Text>
+            </TouchableOpacity>
 
         </KeyboardAvoidingView>
     )
@@ -97,10 +96,35 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
     },
     button:{
-        width: 200,
-        marginTop: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 15,
+        paddingHorizontal: 42,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: '#304d50',
+        marginBottom: 15,
+        shadowColor: '#304d50',
+        shadowOffset: { width: 3, height: 5 },
+        shadowOpacity: 0.3,
+        shadowRadius: 10,
     },
     inputContianer:{
         width: 300,
-    }
+    },
+    emailContainer: {
+        alignItems: "center",
+        height: 40,
+        marginBottom: 15,
+        backgroundColor: "white",
+        shadowColor: '#304d50',
+        shadowOffset: { width: 3, height: 5 },
+        shadowOpacity: 0.3,
+        shadowRadius: 10,
+        borderRadius: 10
+    },
+    text:{
+        color: "white",
+        fontWeight: "700"
+    },
 })

@@ -10,20 +10,7 @@ const CourseItem = ( {id, courseName, hole, players}) => {
     console.log("hole", hole);
     return (
         <ScrollView>
-        <ListItem key = {id}  style={styles.cardContainer}>
-            <Avatar
-                rounded
-            >
-            </Avatar>
-        <ListItem.Content bottomDivider>
-            <ListItem.Title style={{fontWeight:"800"}}>
-
-            </ListItem.Title>
-
-            <Scorecard style={styles.scorecard} holeNum = {hole} players = {players} course = {courseName}/>
-        
-        </ListItem.Content>
-        </ListItem>
+            <Scorecard holeNum = {hole} players = {players} course = {courseName}/>
         </ScrollView>
     )
 }
@@ -34,7 +21,13 @@ const styles = StyleSheet.create({
     scorecard:{
         display: "flex",
         justifyContent: "flex-start",
-        width: "100%"
+        width: "90%",
+        shadowColor: "#a7d7c3",
+        shadowRadius: 1,
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,  
+        elevation: 5,
     },
     cardContainer: {
         height: "100%",

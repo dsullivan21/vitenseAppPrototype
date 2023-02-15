@@ -15,7 +15,7 @@ import ViewScorecardScreen from './screens/ViewScorecardScreen';
 
 const Stack = createStackNavigator();
 const globalScreenOptions = {
-  headerStyle: {backgroundColor: "green"},
+  headerStyle: {backgroundColor: "#304d50"},
   headerTitleStyle: {color: "white"}, //Header color
   headerTintColor: "white"//Icon color
 }

@@ -4,13 +4,14 @@ import { StyleSheet, Button, ScrollView, TouchableOpacity, Text, FlatList } from
 import { db } from '../firebase';
 import {auth} from '../firebase.js';
 
-function ViewScorecardScreen({navigation}) {
+function ViewScorecardScreen({courseName, navigation}) {
 
+    //TODO: fix doc ref based on selection
     var docRef = db.collection("madison").doc("par");
     const [scores, setScores] = useState(null);
     const [par, setPar] = useState(null);
-    var parAndScore;
-
+    const [player, setPlayer] = useState(null);
+    console.log(courseName);
     function loadPar(){
         docRef.get().then((doc) => {
             if (doc.exists ) {
@@ -57,6 +58,10 @@ function ViewScorecardScreen({navigation}) {
                     id: doc.id,
                     data: scores1,
                 });
+                setPlayer({
+                    id: doc.id,
+                    data: playerName
+                });
 
             } else {
 
@@ -68,6 +73,103 @@ function ViewScorecardScreen({navigation}) {
         }
     }   
 
+    function getStyle(score, index) {
+
+        var parList = par["data"];
+        console.log(index, "ind");
+        console.log(score, "score");
+        console.log(parList);
+        console.log("list w index" , parList[index]);
+        if (score == parList[index] +2 ){
+            console.log(" Checked to Yes");
+            return{
+                backgroundColor: "#00008b", width: "100%",
+                alignItems: "center",
+                padding: 5,
+                paddingBottom: 10,
+                paddingTop: 10,borderBottomWidth: 0.5,
+                borderColor: "#c6c6c6",
+            }
+        }else if (score == parList[index] +1 ){
+            console.log(" Checked to Yes");
+            return{
+                backgroundColor: "#90c6ee", width: "100%",
+                alignItems: "center",
+                padding: 5,
+                paddingBottom: 10,
+                paddingTop: 10,borderBottomWidth: 0.5,
+                borderColor: "#c6c6c6",
+            }
+        }
+        else if (score == parList[index] - 1 ){
+            console.log(" Checked to Yes");
+            return{
+                backgroundColor: "red", width: "100%",
+                alignItems: "center",
+                padding: 5,
+                paddingBottom: 10,
+                paddingTop: 10,borderBottomWidth: 0.5,
+                borderColor: "#c6c6c6",
+            }
+        }
+        else if (score == parList[index] ){
+            console.log(" Checked to Yes");
+            return{
+                backgroundColor: "#FFFFFF", width: "100%",
+                alignItems: "center",
+                padding: 5,
+                paddingBottom: 10,
+                paddingTop: 10,borderBottomWidth: 0.5,
+                borderColor: "#c6c6c6",
+            }
+        }
+        else if (score < parList[index] - 1 ){
+            console.log(" Checked to Yes");
+            return{
+                backgroundColor: "yellow", width: "100%",
+                alignItems: "center",
+                padding: 5,
+                paddingBottom: 10,
+                paddingTop: 10,borderBottomWidth: 0.5,
+                borderColor: "#c6c6c6",
+            }
+        }
+        else if (score > parList[index] +2 ){
+            console.log(" Checked to Yes");
+            return{
+                backgroundColor: "black", width: "100%",
+                alignItems: "center",
+                padding: 5,
+                paddingBottom: 10,
+                paddingTop: 10,borderBottomWidth: 0.5,
+                borderColor: "#c6c6c6",
+            }
+        }
+
+    }
+
+    function getTextStyle(score, index){
+        var parList = par["data"];
+        console.log(index, "ind");
+        console.log(score, "score");
+        console.log(parList);
+        console.log("list w index" , parList[index]);
+        if (score > parList[index] + 1  || score < parList[index] ){
+            console.log(" Checked to Yes");
+            return{
+                color: "white",
+                fontWeight: "600"
+            }
+        }
+        else{
+            return{
+                fontWeight: "600",
+            }
+        }
+
+  
+    }
+
     useEffect(() => {
        
         loadPar();
@@ -77,27 +179,28 @@ function ViewScorecardScreen({navigation}) {
 
     return (
         <ScrollView style = {styles.container}>
+            
             <View style = {styles.scorecardContainer}>
             <View style = {styles.leftSide}>
             <View style = {styles.scoreTitle}>
                 <Text> Par </Text>
             </View>
-            {par && par["data"].map((score) => {console.log("score", score);
+            {par && par["data"].map((score, index) => {console.log("score", score);
             return (
-              <View style = {styles.score} key = {score}>
-                <Text style = {styles.scoreNum} key = {score} style={styles.item}>{score}</Text>
+              <View style = { styles.score} key = {index}>
+                <Text style = { styles.scoreNum} key = {index} >{score}</Text>
               </View>
             );
           })}
           </View>
           <View style = {styles.rightSide}>
           <View style = {styles.scoreTitle}>
-                <Text> Score </Text>
+                <Text> {player && player["data"]} </Text>
             </View>
-          {scores && scores["data"].map((score) => {console.log("score", score);
+          {scores && scores["data"].map((score, index) => {console.log("score", score);
             return (
-              <View style = {styles.par} key = {score}>
-                <Text style = {styles.parNum} key = {score} style={styles.item}>{score}</Text>
+              <View style = {getStyle(score, index)} key = {index}>
+                <Text style = {getTextStyle(score, index)} key = {index} >{score}</Text>
               </View>
             );
           })}
@@ -148,6 +251,9 @@ const styles = StyleSheet.create({
         padding: 5,
         paddingBottom: 10,
         paddingTop: 10,
+        borderRightWidth: 1,
+        borderBottomWidth: 0.5,
+        borderColor: "#c6c6c6",
     },
     scoreTitle:{
         fontWeight: "900",
