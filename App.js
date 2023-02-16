@@ -1,8 +1,9 @@
 import 'react-native-gesture-handler';
+import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { StyleSheet, Text, View } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View } from 'react-native';
 import LoginScreen from './screens/LoginScreen.js';
 import RegisterScreen from './screens/RegisterScreen.js'
 import HomeScreen from './screens/HomeScreen.js'
@@ -12,6 +13,7 @@ import MadisonScorecardScreen from './screens/MadisonScorecardScreen.js';
 import {createStackNavigator} from "@react-navigation/stack";
 import MadisonCourseScreen from './screens/MadisonCourseScreen.js';
 import ViewScorecardScreen from './screens/ViewScorecardScreen';
+import RoundRecapScreen from './screens/RoundRecapScreen.js';
 
 const Stack = createStackNavigator();
 const globalScreenOptions = {
@@ -32,10 +34,13 @@ export default function App() {
         <Stack.Screen name = 'Home' component={HomeScreen}/>
         <Stack.Screen name = 'QRScanner' component={QRScanner}/>
         <Stack.Screen name = 'Scorecard' component={ViewScorecardScreen}/>
+        <Stack.Screen name = 'RoundRecap' component={RoundRecapScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
+AppRegistry.registerComponent('vitensemini', ()  => App);
 
 const styles = StyleSheet.create({
   container: {

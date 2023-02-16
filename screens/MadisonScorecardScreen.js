@@ -6,13 +6,13 @@ import CourseItem from '../components/CourseItem'
 import { db } from '../firebase';
 import {auth} from '../firebase.js';
 import { Ionicons } from '@expo/vector-icons'; 
-import { blue, white, bold } from 'ansi-colors';
 import HomeScreen from './HomeScreen';
 
 const MadisonScorecardScreen = ({navigation}) => {
 
     const [scores, setScores] = useState([]);
     const [holeCount, setHoleCount] = useState(1);
+    const [buttonText, setButtonText] = useState("Next Hole");
     const course = "Madison";
 
     console.log(holeCount);
@@ -44,6 +44,12 @@ const MadisonScorecardScreen = ({navigation}) => {
     function nextHole() {
         setHoleCount(holeCount + 1);
     }
+
+    function endRound(){
+        console.log("round ended");
+        navigation.navigate("RoundRecap");
+    }
+
     function viewCard(){
         navigation.navigate("Scorecard", { courseName: course });
     }
@@ -80,8 +86,18 @@ const MadisonScorecardScreen = ({navigation}) => {
                 <Text style = {styles.buttonText}> Scorecard </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={nextHole} style = {styles.button}> 
-                <Text style = {styles.buttonText}> Next Hole </Text>
+            <TouchableOpacity onPress={() => {
+                console.log(holeCount);
+                if (holeCount <= 18){
+                    nextHole();
+                }
+                if (holeCount == 17){
+                    setButtonText("End Round");
+                }else if (holeCount == 18){
+                    endRound();
+                }
+                }} style = {styles.button}> 
+                <Text style = {styles.buttonText}> {buttonText} </Text>
             </TouchableOpacity>
 
             

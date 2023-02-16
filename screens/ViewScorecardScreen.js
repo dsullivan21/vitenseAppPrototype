@@ -8,7 +8,7 @@ function ViewScorecardScreen({courseName, navigation}) {
 
     //TODO: fix doc ref based on selection
     var docRef = db.collection("madison").doc("par");
-    const [scores, setScores] = useState(null);
+    const [scores, setScores] = useState({data: []});
     const [par, setPar] = useState(null);
     const [player, setPlayer] = useState(null);
     console.log(courseName);
@@ -183,6 +183,18 @@ function ViewScorecardScreen({courseName, navigation}) {
             <View style = {styles.scorecardContainer}>
             <View style = {styles.leftSide}>
             <View style = {styles.scoreTitle}>
+                <Text> Hole </Text>
+            </View>
+            {par && par["data"].map((score, index) => {index = index+1;
+            return (
+              <View style = { styles.holeNum} key = {index}>
+                <Text style = { styles.scoreNum} key = {index} >{index}</Text>
+              </View>
+            );
+          })}
+          </View>
+          <View style = {styles.center}>
+            <View style = {styles.scoreTitle}>
                 <Text> Par </Text>
             </View>
             {par && par["data"].map((score, index) => {console.log("score", score);
@@ -197,7 +209,7 @@ function ViewScorecardScreen({courseName, navigation}) {
           <View style = {styles.scoreTitle}>
                 <Text> {player && player["data"]} </Text>
             </View>
-          {scores && scores["data"].map((score, index) => {console.log("score", score);
+          {scores["data"] && scores["data"].map((score, index) => {console.log("score", score);
             return (
               <View style = {getStyle(score, index)} key = {index}>
                 <Text style = {getTextStyle(score, index)} key = {index} >{score}</Text>
@@ -228,13 +240,16 @@ const styles = StyleSheet.create({
     cardContainer: {
         height: "100%",
     },
+    center: {
+        width: "42.5%"
+    },
     leftSide:{
         display:"flex",
-        width: "50%",
+        width: "15%",
     },
     rightSide:{
         display:"flex",
-        width: "50%",
+        width: "42.5%",
     },
     par: {
         backgroundColor: "#90c6ee",
@@ -243,6 +258,17 @@ const styles = StyleSheet.create({
         padding: 5,
         paddingBottom: 10,
         paddingTop: 10,
+    },
+    holeNum:{
+        backgroundColor: "#fafafa",
+        width: "100%",
+        alignItems: "center",
+        padding: 5,
+        paddingBottom: 10,
+        paddingTop: 10,
+        borderRightWidth: 1,
+        borderBottomWidth: 0.5,
+        borderColor: "#c6c6c6",
     },
     score: {
         backgroundColor: "white",
@@ -263,6 +289,8 @@ const styles = StyleSheet.create({
         padding: 5,
         paddingBottom: 10,
         paddingTop: 10,
+        borderBottomWidth: 0.5,
+        borderColor: "#c6c6c6",
         
     }
 

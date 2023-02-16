@@ -5,7 +5,6 @@ import { Input, Icon, Text } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native'
 import { db } from '../firebase';
 import { Ionicons } from '@expo/vector-icons'; 
-import { blue, white, bold } from 'ansi-colors';
 import {auth} from '../firebase.js';
 import firebase from 'firebase/app'
 
@@ -58,28 +57,35 @@ const MadisonCourseScreen = ({navigation}) => {
 
     return (
         <ScrollView style = {styles.container}>
-            <View style = {styles.header}>
-            <Text style = {styles.courseHeader}> Madison Course </Text>
-            </View>
+            <View style = {styles.containerMain}> 
             <View style = {styles.players}>
-            <Text style = {styles.playerHeader}> Golfers  </Text>
-            <Text style = {styles.player}> {name} </Text>
+            <View style = {styles.header}>
+                <Text style = {styles.courseHeader}> Madison Course </Text>
+            </View>
+            
+                <View style = {styles.groupHeader}> 
+                    <Text style = {styles.playerHeader}> Golf Group  </Text>
+                </View>
+                <View style = {styles.golferContainer}>
+                    <Text style = {styles.player}> {name} </Text>
+                </View>
             </View>
             <View style={styles.buttonContainer}>
-            <TouchableOpacity
+                <TouchableOpacity
                     activeOpacity = {0.5}
                     style = {styles.submitPlayers}
                     onPress={
                         addRound}>
-                    <Text>Add Another Golfer</Text> 
+                    <Text style = {{color: "white", fontWeight : "700"}}>Add Another Golfer</Text> 
                 </TouchableOpacity>
-            <TouchableOpacity
+                <TouchableOpacity
                     activeOpacity = {0.5}
                     style = {styles.submitPlayers}
                     onPress={
                         addRound}>
-                    <Text>Start Round</Text> 
+                    <Text style = {{color: "white", fontWeight : "700"}}>Start Round</Text> 
                 </TouchableOpacity>
+            </View>
             </View>
         </ScrollView>
     )
@@ -88,25 +94,73 @@ const MadisonCourseScreen = ({navigation}) => {
 export default MadisonCourseScreen
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    containerMain: {
+        flex: 1,
+    },
     courseHeader: {
         fontWeight: "bold",
         fontSize: 20,
         marginBottom: 10,
+        color: "white",
+        width: "131%",
+        padding: 20,
+        backgroundColor:"#304d50",
     },
     header: {
         display: "flex",
         flexDirection: "row",
         justifyContent:"center",
         marginBottom: 15,
-        marginTop: 15
+
     },
     players: {
-        display: "flex",
-        flexDirection: "row",
         justifyContent:"center",
+        padding: 40,
+        backgroundColor: "white",
+        shadowColor: '#c6c6c6',
+        shadowOffset: { width: 1, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 1, 
+        width: "90%",
+        marginLeft: "auto",
+        marginRight: "auto",
+        borderRadius: 10,
+        marginTop: 40,
+        paddingTop: 0,
     },
     playerHeader: {
         fontWeight: "800",
+        fontSize: 16,
+        textAlign: "center",
+    },
+    player: {
+        fontWeight: "600",
+        fontSize: 16,
+    },
+    groupHeader: {
+        padding: 10,
+        borderRadius: 10,
+        shadowColor: '#c6c6c6',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 1,  
+        backgroundColor: "white",
+        
+    },
+
+    golferContainer: {
+
+        backgroundColor: "white",
+        padding: 10,
+        marginTop: 15,
+        borderRadius: 10,
+        shadowColor: '#c6c6c6',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 1,  
     },
 
 
@@ -124,7 +178,7 @@ const styles = StyleSheet.create({
         shadowRadius: 1,  
     },
     submitPlayers: {
-        backgroundColor: "lightgreen",
+        backgroundColor: "#304d50",
         padding: 15,
         marginTop: 5,
         color: "white",
@@ -133,8 +187,18 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignSelf: "center",
         alignItems: 'center',
-        width: "70%",
+        width: "40%",
         borderRadius: 5,
-    }
+        marginRight: 10,
+        marginLeft: 10,
+    },
+
+    buttonContainer: {
+        width: '100%',
+        height: 50,
+        display:'flex',
+        flexDirection: "row",
+        marginTop: 50
+    },
 
 })
