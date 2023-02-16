@@ -154,11 +154,16 @@ function ViewScorecardScreen({courseName, navigation}) {
         console.log(score, "score");
         console.log(parList);
         console.log("list w index" , parList[index]);
-        if (score > parList[index] + 1  || score < parList[index] ){
+        if (score > parList[index] + 1  || score == parList[index] -1 ){
             console.log(" Checked to Yes");
             return{
                 color: "white",
                 fontWeight: "600"
+            }
+        }
+        else if (score < parList[index] -1) { 
+            return{
+                fontWeight: "600",
             }
         }
         else{
