@@ -45,6 +45,10 @@ const AddChatScreen = ({navigation}) => {
         navigation.navigate('MadisonScreen');
     }
 
+    const viewHistory = () => {
+        navigation.navigate("History");
+    }
+
 useLayoutEffect(() => {
     navigation.setOptions({
         title: "Select Your Course",
@@ -72,7 +76,7 @@ const [modalVisible, setModalVisible] = useState(false);
                     }}> 
                         <Text h5 style = {styles.courseOptions}>Enter Scores</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity  activeOpacity = {0.5} onPress = {goToMadison}> 
+                    <TouchableOpacity  activeOpacity = {0.5} onPress = {viewHistory}> 
                         <Text h5 style = {styles.courseOptions}>View History</Text>
                     </TouchableOpacity>
                 </View>
