@@ -177,7 +177,7 @@ const RoundRecapScreen = ({navigation}) => {
             <View style = {styles.cardContainer}>
                     <Text style = {styles.header2} > Overall </Text>
                 <View style = {styles.combineScore}>
-                    <Text style = {getStyle()}> {scorevspar}</Text>
+                    {(scorevspar > 0) ? <Text style = {getStyle()}> + {scorevspar}</Text> : <Text style = {getStyle()}> {scorevspar}</Text>}
                 </View> 
 
                 <View style = {styles.otherHeader}> 
