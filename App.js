@@ -15,6 +15,7 @@ import MadisonCourseScreen from './screens/MadisonCourseScreen.js';
 import ViewScorecardScreen from './screens/ViewScorecardScreen';
 import RoundRecapScreen from './screens/RoundRecapScreen.js';
 import ViewHistoryScreen from './screens/ViewHistoryScreen.js';
+import LeaderboardScreen from './screens/LeaderboardScreen.js';
 
 const Stack = createStackNavigator();
 const globalScreenOptions = {
@@ -37,6 +38,7 @@ export default function App() {
         <Stack.Screen name = 'Scorecard' component={ViewScorecardScreen}/>
         <Stack.Screen name = 'RoundRecap' component={RoundRecapScreen}/>
         <Stack.Screen name = 'History' component={ViewHistoryScreen}/>
+        <Stack.Screen name = 'Leaderboard' component={LeaderboardScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

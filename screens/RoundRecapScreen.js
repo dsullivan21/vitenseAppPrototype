@@ -101,6 +101,29 @@ const RoundRecapScreen = ({navigation}) => {
      }, [])
 
 
+     function writeToLeaderboard(){
+        if (scores != null && player != null){
+            var totalScore = 0;
+            var playerName = player['data'];
+            for (let i = 0;  i < scores["data"].length; i++){
+                totalScore = totalScore + scores["data"][i];
+            }
+
+            db.collection("leaderboard").doc("madison").collection("allscores").add({
+                name: playerName,
+                score: totalScore,
+            })
+            .then(() => {
+                console.log("Document successfully written!");
+            })
+            .catch((error) => {
+                console.error("Error writing document: ", error);
+            });
+
+                
+        }
+        global.timestamp = "";
+     }
      function combineScore() {
          pars = 0;
          birdies =0;
@@ -230,7 +253,7 @@ const RoundRecapScreen = ({navigation}) => {
             </View>
 
             <View style = {styles.buttonContainer}> 
-                <TouchableOpacity style = {styles.return} onPress = {() => navigation.navigate('Home')}> 
+                <TouchableOpacity style = {styles.return} onPress = {() => {writeToLeaderboard(); navigation.navigate('Home')}}> 
                     <Text style = {{color: "#304d50", fontWeight: "700"}}> Return Home</Text>
                 </TouchableOpacity>
             </View>

@@ -45,13 +45,16 @@ const ViewHistoryScreen = ({navigation}) => {
 
         });
 
-        var reversedScore = scores["data"].slice(0).reverse();
-        var reversedDate = scores["date"].slice(0).reverse();
-
-        setScores({
-            data: reversedScore,
-            date: reversedDate
-        });
+        if (scores != null){
+            var reversedScore = scores["data"].slice(0).reverse();
+            var reversedDate = scores["date"].slice(0).reverse();
+    
+            setScores({
+                data: reversedScore,
+                date: reversedDate
+            });
+        }
+        
         
     });
    
@@ -100,6 +103,7 @@ const ViewHistoryScreen = ({navigation}) => {
             }
             
           })}
+
         </View>
         </ScrollView>
      

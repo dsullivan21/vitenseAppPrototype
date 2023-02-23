@@ -99,6 +99,9 @@ const HomeScreen = ({navigation}) => {
                     <CustomListItem key ={id} id = {id} chatName = {chatName}/>
                 ))}
             </ScrollView>
+            <View> 
+                <TouchableOpacity onPress = {()=> navigation.navigate("Leaderboard")}><Text>View Leaderboard</Text></TouchableOpacity>
+            </View>
         </ScrollView>
     )
 }
