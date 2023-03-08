@@ -10,6 +10,18 @@ const LeaderboardScreen = ({navigation}) => {
     const [scores, setScores] = useState([]);
     const [dataLoaded, setDataLoad] = useState(false);
 
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: "Madison Course",
+            headerTintColor: "white",
+            headerLeft: () => (<View style={{ marginLeft: 20, flexDirection: "row", alignItems: 'center' }}> 
+                <TouchableOpacity activeOpacity = {0.5} onPress = {() => navigation.goBack()}>
+                    <Text style = {styles.headerBack}> Back </Text>
+                </TouchableOpacity>
+                </View>)
+        })
+    }, [navigation]);
+
     useEffect(() => {
         
 
@@ -71,7 +83,7 @@ const LeaderboardScreen = ({navigation}) => {
   return (
     <View>
         <View> 
-          <Text>LeaderboardScreen</Text> 
+          <Text style = {{color: "#304d50", padding: 15, fontWeight: "700", backgroundColor: "white"}}>Madison Course Leaderboard</Text> 
         </View>
         <View>
             {dataLoaded ? renderLeaders() : <Text> Loading </Text> }
@@ -82,3 +94,23 @@ const LeaderboardScreen = ({navigation}) => {
 }
 
 export default LeaderboardScreen
+
+
+const styles = StyleSheet.create({
+    container: {
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        backgroundColor: "#FFFFFF",
+    },
+    headerStyle: {
+        fontWeight: "600", 
+        backgroundColor: "white", 
+        color: "black",
+        paddingBottom: 10,
+        paddingTop: 10,
+    },
+    headerBack:{
+        color:"white",
+    },
+})

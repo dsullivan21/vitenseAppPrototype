@@ -18,8 +18,12 @@ const MadisonCourseScreen = ({navigation}) => {
     useLayoutEffect(() => {
         navigation.setOptions({
             title: "Madison Course",
-            headerBackTitle: "Courses",
             headerTintColor: "white",
+            headerLeft: () => (<View style={{ marginLeft: 20, flexDirection: "row", alignItems: 'center' }}> 
+                <TouchableOpacity activeOpacity = {0.5} onPress = {() => navigation.goBack()}>
+                    <Text style = {styles.headerBack}>  Back </Text>
+                </TouchableOpacity>
+                </View>)
         })
     }, [navigation]);
 
@@ -75,7 +79,7 @@ const MadisonCourseScreen = ({navigation}) => {
                     activeOpacity = {0.5}
                     style = {styles.submitPlayers}
                     onPress={
-                        addRound}>
+                        console.log("pressed")}>
                     <Text style = {{color: "white", fontWeight : "700"}}>Add Another Golfer</Text> 
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -99,6 +103,10 @@ const styles = StyleSheet.create({
     },
     containerMain: {
         flex: 1,
+    },
+    headerBack:{
+        color:"white",
+        fontWeight: "700"
     },
     courseHeader: {
         fontWeight: "bold",

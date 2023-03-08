@@ -1,11 +1,12 @@
 import React, {useState, useLayoutEffect, useEffect, useRef} from 'react'
 
-import { StyleSheet, View, Button, ScrollView, TouchableOpacity, Text, FlatList } from 'react-native'
+import { StyleSheet, View, Button, ScrollView, TouchableOpacity, Text, FlatList, Image } from 'react-native'
 import { ListItem } from 'react-native-elements'
 import { db } from '../firebase';
 import { doc, getDoc } from "firebase/firestore";
 import {auth} from '../firebase.js';
 import { faHandHolding } from '@fortawesome/free-solid-svg-icons';
+import miniexample from '../assets/miniexample.png'
 import firebase from 'firebase/app';
 
 //Function holds the scorecard of the app
@@ -126,13 +127,17 @@ function Scorecard( { holeNum, players, course} ) {
     // Handles score addition
     const increaseScore = () => {
       // Counter state is incremented
-      setCounter(counter + 1);
+      if (counter < 9){
+        setCounter(counter + 1);
+      }
     }
     
     // Function is called everytime decrement button is clicked
     const decreaseScore = () => {
       // Counter state is decremented
-      setCounter(counter - 1);
+      if (counter > 1){
+        setCounter(counter - 1);
+      }
     }
 
         var HoleName = names && names['data'];
@@ -166,6 +171,14 @@ function Scorecard( { holeNum, players, course} ) {
         }
     }   
     
+    function loadimage() {
+
+        if (holeNum && holeNum == 1){
+            return (
+                <Image source = {miniexample} style ={{width: "100%", height: 225, resizeMode: 'stretch', marginLeft: "auto", marginRight: "auto", marginTop: 10}} />
+            );
+        }
+    }
 
   
     
@@ -177,6 +190,7 @@ function Scorecard( { holeNum, players, course} ) {
             <View>
                 <View style = {styles.titleContainer}>
                     <Text style= {styles.title}> {names && HoleName ? HoleName[holeNum -1] : ""}</Text>
+                    {loadimage()}
                 </View>
                 <ListItem style= {styles.scoreGrid}> 
                     <View style = {styles.par}> 
@@ -233,6 +247,7 @@ const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "center",
         margin: 10,
+        marginBottom: 0,
         padding: 10,
     },
     par:{

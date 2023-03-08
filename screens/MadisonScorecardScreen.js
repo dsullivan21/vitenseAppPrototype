@@ -6,6 +6,7 @@ import CourseItem from '../components/CourseItem'
 import { db } from '../firebase';
 import {auth} from '../firebase.js';
 import { Ionicons } from '@expo/vector-icons'; 
+import miniexample from '../assets/miniexample.png'
 import HomeScreen from './HomeScreen';
 
 const MadisonScorecardScreen = ({navigation}) => {

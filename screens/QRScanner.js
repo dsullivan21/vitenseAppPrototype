@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, Modal, TouchableHighlight, Image } from 'react-native';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
+import { Text, View, StyleSheet, Button, Modal, TouchableHighlight, Image, TouchableOpacity } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { WebView } from 'react-native-webview';
 
 
-const QRScanner = () => {
+const QRScanner = ({navigation}) => {
 
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
@@ -16,6 +16,18 @@ const QRScanner = () => {
         setHasPermission(status === 'granted');
          })();
         }, []);
+
+        useLayoutEffect(() => {
+          navigation.setOptions({
+              title: "Scanner",
+              headerTintColor: "white",
+              headerLeft: () => (<View style={{ marginLeft: 20, flexDirection: "row", alignItems: 'center' }}> 
+                  <TouchableOpacity activeOpacity = {0.5} onPress = {() => navigation.goBack()}>
+                      <Text style = {{color: "white", fontWeight: "800"}}>  Back </Text>
+                  </TouchableOpacity>
+                  </View>)
+          })
+      }, [navigation]);
 
     const handleBarCodeScanned = ({ type, data }) => {
         setScanned(true);

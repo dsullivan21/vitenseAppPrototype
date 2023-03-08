@@ -11,6 +11,17 @@ const ViewHistoryScreen = ({navigation}) => {
     var userUid = auth.currentUser.uid;
     var scores2 = [];
     var dates2 = [];
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: "Scanner",
+            headerTintColor: "white",
+            headerLeft: () => (<View style={{ marginLeft: 20, flexDirection: "row", alignItems: 'center' }}> 
+                <TouchableOpacity activeOpacity = {0.5} onPress = {() => navigation.goBack()}>
+                    <Text style = {{color: "white", fontWeight: "800"}}>  Back </Text>
+                </TouchableOpacity>
+                </View>)
+        })
+    }, [navigation]);
 
     useEffect(() => {
 

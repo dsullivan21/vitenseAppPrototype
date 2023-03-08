@@ -6,6 +6,21 @@ import {auth} from '../firebase.js';
 
 function ViewScorecardScreen({courseName, navigation}) {
 
+
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: "Scanner",
+            headerTintColor: "white",
+            headerLeft: () => (<View style={{ marginLeft: 20, flexDirection: "row", alignItems: 'center' }}> 
+                <TouchableOpacity activeOpacity = {0.5} onPress = {() => navigation.goBack()}>
+                    <Text style = {{color: "white", fontWeight: "800"}}>  Back </Text>
+                </TouchableOpacity>
+                </View>)
+        })
+    }, [navigation]);
+
+    
     //TODO: fix doc ref based on selection
     var docRef = db.collection("madison").doc("par");
     const [scores, setScores] = useState({data: []});
@@ -150,9 +165,7 @@ function ViewScorecardScreen({courseName, navigation}) {
 
     function getTextStyle(score, index){
         var parList = par["data"];
-        console.log(index, "ind");
-        console.log(score, "score");
-        console.log(parList);
+        
         console.log("list w index" , parList[index]);
         if (score > parList[index] + 1  || score == parList[index] -1 ){
             console.log(" Checked to Yes");

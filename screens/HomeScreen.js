@@ -12,11 +12,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import logo from '../assets/vitenseLogo.png'
 import { SliderBox } from 'react-native-image-slider-box';
+import vitensemain from '../assets/vitensemain.jpg'
 
 const HomeScreen = ({navigation}) => {
     const [chats, setChats] = useState([]);
     const [images, setImages] = React.useState([
-        "https://source.unsplash.com/1024x768/?nature",
+        vitensemain,
         "https://source.unsplash.com/1024x768/?water",
         "https://source.unsplash.com/1024x768/?tree",
     ]);
@@ -31,6 +32,15 @@ const HomeScreen = ({navigation}) => {
         },
         { text: 'Continue to Scanner', onPress: () => navigation.navigate("QRScanner")},
     ]);
+
+    const openSideNav = () => {
+        
+        return(
+            <View style = {{position: "absolute", padding: 20}}>
+                <Text> Hello </Text>
+            </View>
+        );
+    }
 
     useEffect(() => {
        const unsubscribe = db.collection('chats').onSnapshot(snapshot=>( setChats(snapshot.docs.map( doc => ({
@@ -60,9 +70,12 @@ const HomeScreen = ({navigation}) => {
                 
             ),
             headerLeft: () => (<View style={{ marginLeft: 20, flexDirection: "row", alignItems: 'center' }}> 
-                <TouchableOpacity activeOpacity = {0.5} onPress = {signOutUser}>
+                <TouchableOpacity style = {{marginRight: 20}} activeOpacity = {0.5} onPress = {signOutUser}>
                     <FontAwesome name="user-o" size={25} color="#304d50" />
                 </TouchableOpacity>
+                <TouchableOpacity activeOpacity = {0.5} onPress = {() => createTwoButtonAlert() }>
+                        <Ionicons name="fast-food-outline" size={30} color="#304d50" />
+                    </TouchableOpacity>
             </View>),
             headerRight: () => (
                 <View style={{
@@ -71,11 +84,11 @@ const HomeScreen = ({navigation}) => {
                     width: 80,
                     marginRight: 20,
                 }}> 
-                    <TouchableOpacity activeOpacity = {0.5} onPress = {() => createTwoButtonAlert() }>
-                        <Ionicons name="fast-food-outline" size={30} color="#304d50" />
-                    </TouchableOpacity>
                     <TouchableOpacity onPress = {() => navigation.navigate("AddChat")} activeOpacity = {0.5}>
                         <MaterialIcons name="sports-golf" size={35} color="#304d50" />                   
+                    </TouchableOpacity>
+                    <TouchableOpacity activeOpacity = {0.5} onPress = {() => openSideNav() }>
+                        <MaterialIcons name="menu" size={35} color="#304d50" />
                     </TouchableOpacity>
                 </View>
             ),
@@ -89,18 +102,24 @@ const HomeScreen = ({navigation}) => {
                 sliderBoxHeight={400}
                 dotColor="#a7d7c3"
                 inactiveDotColor="#90A4AE"  
-                onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
+                onCurrentImagePressed={index => {
+                    if (index == 0){
+                        navigation.navigate("QRScanner");
+                    }else{
+                        console.warn(`image ${index} pressed`);
+                    }
+                }}
                 paginationBoxVerticalPadding={20}
                 circleLoop
             />
-            <Text h3 style={styles.headerStyle} > Recent Vitense News</Text>
+            <Text h3 style={styles.headerStyle} > Vintense Deals </Text>
             <ScrollView style = {styles.container}>
                 {chats.map(( {id, data: {chatName}}) => (
                     <CustomListItem key ={id} id = {id} chatName = {chatName}/>
                 ))}
             </ScrollView>
-            <View> 
-                <TouchableOpacity onPress = {()=> navigation.navigate("Leaderboard")}><Text>View Leaderboard</Text></TouchableOpacity>
+            <View style = {styles.leaderboardBtn}> 
+                <TouchableOpacity onPress = {()=> navigation.navigate("Leaderboard")}><Text style = {styles.leaderText}>View Leaderboard</Text></TouchableOpacity>
             </View>
         </ScrollView>
     )
@@ -118,5 +137,14 @@ const styles = StyleSheet.create({
         color: "black",
         paddingBottom: 10,
         paddingTop: 10,
+    },
+    leaderboardBtn: {
+        padding: 20,
+        backgroundColor: "#304d50",
+    },
+    leaderText: {
+        color: "white",
+        fontWeight: "700"
     }
+
 })

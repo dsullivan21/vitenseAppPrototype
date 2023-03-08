@@ -49,11 +49,19 @@ const AddChatScreen = ({navigation}) => {
         navigation.navigate("History");
     }
 
+    const viewLeaderboard = () => {
+        navigation.navigate("Leaderboard");
+    }
+
 useLayoutEffect(() => {
     navigation.setOptions({
         title: "Select Your Course",
-        headerBackTitle: "Home",
         headerTintColor: "white",
+        headerLeft: () => (<View style={{ marginLeft: 20, flexDirection: "row", alignItems: 'center' }}> 
+                  <TouchableOpacity activeOpacity = {0.5} onPress = {() => navigation.goBack()}>
+                      <Text style = {{color: "white", fontWeight: "800"}}>  Back </Text>
+                  </TouchableOpacity>
+                  </View>)
     })
 }, [navigation]);
 
@@ -80,6 +88,9 @@ const [modalVisible, setModalVisible] = useState(false);
                         <Text h5 style = {styles.courseOptions}>View History</Text>
                     </TouchableOpacity>
                 </View>
+                <TouchableOpacity  activeOpacity = {0.5} onPress = {viewLeaderboard} style = {{maxWidth: "70%", marginLeft: "auto", marginRight: "auto"}}> 
+                        <Text h5 style = {styles.courseOptions}>View Leaderboard</Text>
+                </TouchableOpacity>
             </View>
             <View style = {styles.courseList}>
                 <View style = {{ flexDirection: "row", display:"flex", justifyContent:"center", marginBottom: 10}}>
