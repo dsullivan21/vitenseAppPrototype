@@ -35,11 +35,7 @@ const HomeScreen = ({navigation}) => {
 
     const openSideNav = () => {
         
-        return(
-            <View style = {{position: "absolute", padding: 20}}>
-                <Text> Hello </Text>
-            </View>
-        );
+        
     }
 
     useEffect(() => {

@@ -6,7 +6,8 @@ import { db } from '../firebase';
 import { doc, getDoc } from "firebase/firestore";
 import {auth} from '../firebase.js';
 import { faHandHolding } from '@fortawesome/free-solid-svg-icons';
-import miniexample from '../assets/miniexample.png'
+import hole1 from '../assets/madison_course/hole1.jpeg';
+import hole2 from '../assets/madison_course/hole2.jpeg';
 import firebase from 'firebase/app';
 
 //Function holds the scorecard of the app
@@ -15,9 +16,12 @@ function Scorecard( { holeNum, players, course} ) {
 
     const [scores, setScores] = useState([]);
     const [names, setNames] = useState([]);
+    const [desc, setDesc] = useState([]);
+    const [showDetails, setDetails] = useState(false);
     const [totalScores, setTotal] = useState([]);
     var docRef = db.collection("madison").doc("par");
     var docRefNames = db.collection("madison").doc("names");
+    var docDescNames = db.collection("madison").doc("desc");
     const user = firebase.auth().currentUser;
     var userUID = user.uid;
     var name = user.displayName;
@@ -89,13 +93,37 @@ function Scorecard( { holeNum, players, course} ) {
         return false;
     }
 
+    function getDescData(){
+        docDescNames.get().then((doc) => {
+            
+            if (doc.exists ) {
+               // console.log("Document data:", doc.data());
+               var nameObj = doc.data();
+               console.log(doc.data());
+               var names = Object.values(nameObj);
+                setDesc({
+                    id: doc.id,
+                    data: names,
+                })
+                return true;
+                //console.log(doc.data);
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such desc document!");
+                return false;
+            }
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+        return false;
+    }
 
     //trigger save scores on next hole click
     const didMountRef = useRef(false);
     useEffect(() => {
        
         getNameData();
-  
+        getDescData();
         getParData();
         if (didMountRef.current) {
             saveScores();
@@ -143,6 +171,7 @@ function Scorecard( { holeNum, players, course} ) {
         var HoleName = names && names['data'];
         //console.log(HoleName[0]);
 
+        var HoleDesc = desc && desc['data'];
         
 
         var HolePar = parseInt(scores['data']);
@@ -175,7 +204,11 @@ function Scorecard( { holeNum, players, course} ) {
 
         if (holeNum && holeNum == 1){
             return (
-                <Image source = {miniexample} style ={{width: "100%", height: 225, resizeMode: 'stretch', marginLeft: "auto", marginRight: "auto", marginTop: 10}} />
+                <Image source = {hole1} style ={{width: "100%", height: 225, resizeMode: 'cover', marginLeft: "auto", marginRight: "auto", marginTop: 10, borderRadius: 15}} />
+            );
+        }else if (holeNum && holeNum == 2){
+            return (
+                <Image source = {hole2} style ={{width: "100%", height: 225, resizeMode: 'cover', marginLeft: "auto", marginRight: "auto", marginTop: 10, borderRadius: 15}} />
             );
         }
     }
@@ -224,8 +257,11 @@ function Scorecard( { holeNum, players, course} ) {
                     </TouchableOpacity>
                 </ListItem>
             </ListItem>
+                    
             </View>
-
+            <View style = {styles.holeDesc}> 
+                    <Text style = {styles.partext}>{HoleDesc}</Text>
+            </View>
             
         </ScrollView>
     )
@@ -252,6 +288,18 @@ const styles = StyleSheet.create({
     },
     par:{
         display: "flex",
+        flexDirection: "row",
+        shadowColor: '#c6c6c6',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,  
+        elevation: 5,
+        backgroundColor: "white",
+        padding: 10,
+        borderRadius: 15
+    },
+    holeDesc:{
+        marginBottom: 25,
         flexDirection: "row",
         shadowColor: '#c6c6c6',
         shadowOffset: { width: 0, height: 1 },

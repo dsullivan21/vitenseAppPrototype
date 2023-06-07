@@ -6,7 +6,6 @@ import CourseItem from '../components/CourseItem'
 import { db } from '../firebase';
 import {auth} from '../firebase.js';
 import { Ionicons } from '@expo/vector-icons'; 
-import miniexample from '../assets/miniexample.png'
 import HomeScreen from './HomeScreen';
 
 const MadisonScorecardScreen = ({navigation}) => {
@@ -46,6 +45,13 @@ const MadisonScorecardScreen = ({navigation}) => {
         setHoleCount(holeCount + 1);
     }
 
+    function prevHole() {
+        if(holeCount > 1){
+            setHoleCount(holeCount - 1);
+        }
+    }
+
+
     function endRound(){
         console.log("round ended");
         navigation.navigate("RoundRecap");
@@ -82,6 +88,14 @@ const MadisonScorecardScreen = ({navigation}) => {
         <CourseItem key ={1} id = {1} courseName = {course} hole = {holeCount} players = {global.players}/>
         </View>
         <View style = {styles.footer}> 
+        <TouchableOpacity onPress={() => {
+                console.log(holeCount);
+                if (holeCount <= 18 && holeCount > 0){
+                    prevHole();
+                }
+                }} style = {styles.button}> 
+                <Text style = {styles.buttonText}> Last Hole </Text>
+            </TouchableOpacity>
 
             <TouchableOpacity onPress={viewCard} style = {styles.button}> 
                 <Text style = {styles.buttonText}> Scorecard </Text>
@@ -100,6 +114,8 @@ const MadisonScorecardScreen = ({navigation}) => {
                 }} style = {styles.button}> 
                 <Text style = {styles.buttonText}> {buttonText} </Text>
             </TouchableOpacity>
+
+            
 
             
         </View>

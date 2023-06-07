@@ -103,13 +103,6 @@ const styles = StyleSheet.create({
         display: "flex",
         backgroundColor: "#FFFFFF",
     },
-    headerStyle: {
-        fontWeight: "600", 
-        backgroundColor: "white", 
-        color: "black",
-        paddingBottom: 10,
-        paddingTop: 10,
-    },
     headerBack:{
         color:"white",
     },
